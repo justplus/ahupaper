@@ -1,0 +1,57 @@
+$def with(loginedusername,results=[],recount=[])
+<div class="regbox">
+	<p>全校<span>20</span>个院系，<span>76</span>个本科专业，若干门课程，等待您的完善<br/><span>$recount[1]</span>位同学已注册，上传试卷<span>$recount[0]</span>份<br/>
+	<!--<span>声明：</span>本站试卷材料均为在校生上传，本站不持有任何责任，如有违反您的版权，请联系justplus@ahu.edu.cn，我们会尽快审核处理</p>-->
+	<p><a class="sharebt" target="_blank" href="http://service.weibo.com/share/share.php?appkey=3651213518&url=http%3a%2f%2fahupaper.sinaapp.com%2f&title=%e5%ae%89%e5%be%bd%e5%a4%a7%e5%ad%a6%e6%9c%9f%e6%9c%ab%e8%af%95%e5%8d%b7%e5%85%b1%e4%ba%ab%e5%b9%b3%e5%8f%b0%e6%96%b0%e9%b2%9c%e5%87%ba%e7%82%89%e4%ba%86%ef%bc%8c%e4%b8%8d%e5%a6%a8%e6%9d%a5%e5%90%90%e5%90%90%e6%a7%bd%ef%bc%8c%e9%a1%ba%e4%be%bf%e5%85%b3%e6%b3%a8%e4%b8%8b%e4%bd%9c%e8%80%85%e5%90%a7!%40justplus+%e4%bd%8e%e8%b0%83%e5%88%86%e4%ba%ab%ef%bc%81&sourceUrl=&content=utf-8&pic=http%3a%2f%2fahupaper.sinaapp.com%2fstatic%2fshow.png">&nbsp&nbsp&nbsp分享至新浪微博&nbsp&nbsp&nbsp</a></p>
+</div>
+<div class="loginbox">
+	<p>Hi, <span>$loginedusername</span><br/>欢迎来到安徽大学试卷共享平台！</p>
+	<form method="post" action="/logout">
+		<div class="loginbutton">
+			<input type="submit" value="&nbsp&nbsp&nbsp退出&nbsp&nbsp&nbsp" tabindex="3" />
+		</div>
+	</form>
+</div>
+<div class="searchbox">
+	<!--<form method="POST" action="/search">-->
+		<input class="searchinput" type="text" style="width:300px" id="loginkeyword" name="loginkeyword" tabindex="4" value="输入课程名全称" onfocus="if(this.value=='输入课程名全称')this.value=''" onblur="if(this.value=='')this.value='输入课程名全称'" onkeydown="if (event.keyCode == 13) document.getElementById('btnsearch').click()"/>
+		<button class="searchbutton" id="btnsearch" tabindex="5" onclick="showLoginIndexResults();">搜索试卷</button>
+		<p class="tip">搜索后无反应，应该是浏览器不支持ajax的原因，请更换纯正IE、firefox、chrome等浏览器后重新试一下</p>
+	<!--</form>-->
+</div>
+<div class="downtable" id="loginshowdowntable">
+	<p class="regwelcome">最新上传</p>
+	$for r in results:
+		<p>$r[0]于$r[1]上传了<a href=$r[2]>$r[3]-$r[4]第$r[5]学期$r[6]试卷</a>($r[7])</a></p>
+</div>
+<script type="text/javascript">
+	function showLoginIndexResults()
+	{
+		var q=document.getElementById("loginkeyword");
+		if (q==""||q.value=="输入课程名全称")
+		{
+			alert("请输入课程名全程，然后再查询！")
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp=new XMLHttpRequest();
+		}
+		else
+		{// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				document.getElementById("loginshowdowntable").innerHTML=xmlhttp.responseText;
+			}
+		}
+		var acurl='/?q='
+		acurl=acurl+q.value.replace(/\s+/g, "");//clear all blanks
+		xmlhttp.open("GET",acurl,true);
+		xmlhttp.send();
+	}
+</script>

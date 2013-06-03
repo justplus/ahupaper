@@ -1,0 +1,41 @@
+$def with(username=None,useremail=None,state=0)
+<div>
+	<p class="regwelcome">系统处于运行初期阶段，强烈需要您的建议和意见！~</p>
+	<div class="uploadrule">
+		<p>1.未登陆用户，请填写E-mail，我们会对好的意见和建议进行回复；<br/>
+		2.所有的意见和建议我们都会认真阅读，请认真填写；<br/>
+		3.为了更好的维护此平台，希望大家能成为监督者，对劣质资源进行举报；<br/>
+		4.常见问题之[首页和下载页面搜索无反应],原因是您的浏览器不支持ajax,因此您可能需要更换MSIE6+/Opeara8.0+/firefox/chrome等，不要使用360或者遨游之类的浏览器！<br/>
+		5.常见问题之[资源少],强调一下这个是共享平台，需要大家一块完善资源，而不是个人！</p>
+	</div>
+	<div class="uploadform">
+		<form method="post" action="/comment" onsubmit="return checkComment();">
+		<div class="uploadrow">
+			<label>昵称：</label>
+			$if username:
+				<input type="text" id="commentnickname" name="commentnickname" style="width:160px" value="$username">
+			$else:
+				<input type="text" id="commentnickname" name="commentnickname" style="width:160px">
+		</div>
+		<div class="uploadrow">
+			<label>邮箱：</label>
+			$if useremail:
+				<input type="text" id="commentemail" name="commentemail" style="width:160px" value="$useremail">
+			$else:
+				<input type="text" id="commentemail" name="commentemail" style="width:160px">
+		</div>
+		<div class="uploadrow">
+			<label>意见：</label></br>
+			<textarea id="commentcontent" name="commentcontent" cols="45" rows="8" style="width: 471px; height: 152px;" aria-required="true"></textarea>
+		</div>
+		<div>
+			<input class="uploadbutton" type="submit" value="&nbsp&nbsp&nbsp提交&nbsp&nbsp&nbsp"/>
+		</div>
+		</form>
+		<br/>
+		$if state==1:
+			<p class="finishedcomment">感谢您的评论，我们将及时查看您的留言并给于回复！谢谢！</p>
+		$elif state==-1:
+			<p class="finishedcomment">评论提交出现异常，请重试！</p>
+	</div>
+</div>

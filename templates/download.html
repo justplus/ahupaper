@@ -1,0 +1,124 @@
+$def with(results=[],geturl='',pageargs=[])
+<div>
+	<p class="regwelcome">欢迎来到试卷搜索和下载页面~</p>
+	<div class="downloadform">
+		<!--<form action="">-->
+		<div class="uploadrow">
+			<label>年份：</label>
+			<select name="downyear" id="downyear">
+				<option value="-1">不限</option>
+			</select>
+			<label>学期：</label>
+			<select name="downterm" id="downterm" style="width:80px">
+				<option value="-1">不限</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+			</select>
+			<label>院系：</label>
+			<select name="downschool" id="downschool" style="width:160px">
+				<option value="NULL">不限</option>
+			</select>
+			<label>专业：</label>
+			<select name="downdepartment" id="downdepartment" style="width:160px">
+			</select>
+		</div>
+		<div class="uploadrow">
+			<label>课程：</label>
+			<input type="text" style="width:160px;margin-right:20px" id="downcourse" name="downcourse"/>
+			<select name="searchtype" id="searchtype" style="width:80px">
+				<option value="1">精确查询</option>
+				<option value="2">模糊查询</option>
+			</select>
+			<label>&nbsp&nbsp&nbsp类型：</label>
+			<select name="downtype" id="downtype" style="width:120px">
+				<option value="1">公共基础课</option>
+				<option value="2">专业核心课</option>
+				<option value="3">专业选修课</option>
+				<option value="4">校公选课</option>
+				<option value="5" selected="selected">不限课程类型</option>
+			</select>
+		</div>
+		<div>
+			<button class="uploadbutton" onclick="showResults(1);">&nbsp&nbsp&nbsp搜索&nbsp&nbsp&nbsp</button>
+		</div>
+		<!--</form>-->
+		<div class="downtable" id="showdowntable">
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		for (i = 2012; i >= 1990; i--)
+		{
+			var e = document.getElementById("downyear");
+			e.options.add(new Option(i,i));
+			e.selectedIndex=0;
+		}
+		loadschool("downschool","downdepartment");
+
+		function showResults(page)
+		{
+			var xmlhttp;
+			if (window.XMLHttpRequest)
+			{// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp=new XMLHttpRequest();
+			}
+			else
+			{// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function()
+			{
+				if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				{
+					document.getElementById("showdowntable").innerHTML=xmlhttp.responseText;
+				}
+			}
+			var acurl='/download?'
+			var yearselect=document.getElementById("downyear");
+			if (yearselect.selectedIndex!=0)
+			{
+				acurl=acurl+"downyear="+yearselect.options[yearselect.selectedIndex].text;
+			}
+			else
+			{
+				acurl=acurl+"downyear=-1"
+			}
+			var termselect=document.getElementById("downterm");
+			if (termselect.selectedIndex!=0)
+			{
+				acurl=acurl+"&downterm="+termselect.options[termselect.selectedIndex].text;
+			}
+			else
+			{
+				acurl=acurl+"&downterm=-1"
+			}
+			var schoolselect=document.getElementById("downschool");
+			if(schoolselect.selectedIndex!=0)
+			{
+				acurl=acurl+"&downschool="+schoolselect.options[schoolselect.selectedIndex].text;
+				var departmentselect=document.getElementById("downdepartment");
+				acurl=acurl+"&downdepartment="+departmentselect.options[departmentselect.selectedIndex].text;
+			}
+			else
+			{
+				acurl=acurl+"&downschool=NULL&downdepartment=NULL";
+			}
+			var courseselect=document.getElementById("downcourse");
+			if(courseselect.value!="")
+			{
+				acurl=acurl+"&downcourse="+courseselect.value;
+			}
+			else
+			{
+				acurl=acurl+"&downcourse=NULL"
+			}
+			var searchtypeselect=document.getElementById("searchtype");
+			acurl=acurl+"&searchtype="+(searchtypeselect.selectedIndex+1);
+			var typeselect=document.getElementById("downtype");
+			acurl=acurl+"&downtype="+(typeselect.selectedIndex+1);
+			acurl=acurl+"&page="+page
+			xmlhttp.open("GET",acurl,true);
+			xmlhttp.send();
+		}
+	</script>
+</div>

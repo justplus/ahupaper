@@ -1,0 +1,75 @@
+$def with(state=0,uno='',uemail='',uschool='',udepartment='')
+<div class="regcontentbox">
+	<!--<div class="reglogo">
+		<img src="/static/register.png" alt="Register Logo" border="0"/>
+	</div>-->
+	<div class="regcontent">
+		<p class="regwelcome">欢迎加入 期末pass 网，祝您考试顺利！</p>
+		<form method="post" action="/register" onsubmit="return checkRegisterInfo();">
+			<div class="regitem">
+				<label>学号：</label>
+				<input type="text" style="width:180px" id="reguserno" name="reguserno" value="$uno" tabindex="1"/>
+			</div>
+			<div class="regitem">
+				<label>昵称：</label>
+				<input type="text" style="width:180px" id="regusername"  name="regusername" tabindex="2" value="仅英文字母、数字和下划线" onfocus="if(this.value=='仅英文字母、数字和下划线')this.value=''" onblur="if(this.value=='')this.value='仅英文字母、数字和下划线'"/>
+				$if state==2:
+					<p>昵称已存在，请更换其他昵称</p>
+			</div>
+			<div class="regitem">
+				<label>密码：</label>
+				<input type="password" style="width:180px" id="reguserpsw" name="reguserpsw" tabindex="3"/>
+			</div>
+			<div class="regitem">
+				<label>邮箱：</label>
+				<input type="text" style="width:180px" id="reguseremail" name="reguseremail" value="$uemail" tabindex="4"/>
+			</div>
+			<div class="regitem">
+				<label>院系：</label>
+				<select name="reguserschool" id="reguserschool" style="width:180px" value="$uschool" tabindex="5">
+					<option value="null">请选择学院</option>
+				</select>
+			</div>
+			<div class="regitem">
+				<label>专业：</label>
+				<select name="reguserdepartment" id="reguserdepartment" style="width:180px" value="$udepartment" tabindex="6">
+				</select>
+			</div>
+			<div class="regpost">
+				<p>使用协议：</p>
+				<p class="regpostcontent">1.遵守互联网的相关规定，不传播违法违纪内容，否则本站有权停止您的所有服务！</p>
+				<p class="regpostcontent">2.对分享的试卷等内容，本站有权在不通知作者的情况下进行相关处理！</p>
+				<p class="regpostcontent">3.对上传的资料，如果出现违反版权等情况下的举报，本站有权删除，但是会通知本人！</p>
+				<p class="regpostcontent">4.本站对高质量的试卷进行相关的推荐工作，允许本站进行收录和校内非商业传播！</p>
+				<p class="regpostcontent">5.遵循其他互联网的相关条款！</p>
+			</div>
+			<div class="postcheck">
+				<input type="checkbox" checked="checked" id="regagree" tabindex="7">我已经认真阅读并同意上述协议</input>
+			</div>
+			<div class="regbutton">
+				<input type="submit" value="&nbsp&nbsp&nbsp注册&nbsp&nbsp&nbsp" tabindex="8"/>
+			</div>
+		</form>
+		$if state==1:
+			<p class="recallmsg">注册成功！窗口将在<span id="regtime">3</span>秒钟后跳转到登陆页面！</p>
+			<script type="text/javascript">
+				var i=3;
+				intervalid=setInterval("fun()",1000);
+				function fun()
+				{
+					if(i==0)
+					{
+						window.location.href = "/";
+						clearInterval(intervalid);
+					}
+					document.getElementById("regtime").innerHTML=i;
+					i--;
+				}
+			</script>
+		$elif state==-1:
+			<p class="recallmsg">注册出现异常，请重试！</p>
+	</div>
+	<script type="text/javascript">
+		loadschool("reguserschool","reguserdepartment");
+	</script>
+</div>

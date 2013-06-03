@@ -1,0 +1,162 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import os
+import sae
+import sae.const
+import sae.storage
+import web
+import model
+
+urls = (
+	'/','Index',
+	'/register',"Register",
+	'/login','Login',
+	'/logout','Logout',
+	'/upload','Upload',
+	'/fastupload','Fastupload',
+	'/download','Download',
+	'/comment','Comment',
+	'/help','Help',
+)
+
+app_root = os.path.dirname(__file__)
+templates_root = os.path.join(app_root, 'templates')
+render = web.template.render(templates_root, base='base')
+
+class Index:
+	def GET(self):
+		recall=model.getuploadinfo()
+		recount=model.getuserpapercount()
+		loginedusername = web.cookies().get('loginedusername')
+		logineduseremail = web.cookies().get('logineduseremail')
+		if model.isuservalid(loginedusername,logineduseremail):
+			ud=web.input(q=None)
+			if ud.q:
+				return model.queryloginpaper(ud.q)
+			else:
+				return render.loginedindex(loginedusername,recall,recount)
+		else:
+			ud=web.input(q=None)
+			if ud.q:
+				return model.querypaper(ud.q)
+			else:
+				return render.index(False,recall,recount)
+
+class Register:
+	def GET(self):
+		return render.register()
+	def POST(self):
+		ud=web.input()
+		recall=model.db.query("select * from users where username='%s'"%ud.regusername)
+		if recall:
+			return render.register(2,ud.reguserno,ud.reguseremail,ud.reguserschool,ud.reguserdepartment)
+		recall=model.userRegister(ud.reguserno,ud.regusername,ud.reguserpsw,ud.reguseremail,ud.reguserschool,ud.reguserdepartment)
+		if recall:
+			return render.register(1)
+		else:
+			return render.regidster(-1,ud.reguserno,ud.reguseremail,ud.reguserschool,ud.reguserdepartment)
+
+class Login:
+	def POST(self):
+		ud=web.input()
+		recall=model.userLogin(ud.loginusername,ud.loginuserpsw)
+		if recall:
+			cookieuser=recall[0]
+			web.setcookie("loginedusername",cookieuser.username,36000)
+			web.setcookie("logineduseremail",cookieuser.useremail,36000)
+			web.setcookie("logineduserschool",cookieuser.userschool,36000)
+			web.setcookie("logineduserdepartment",cookieuser.userdepartment,36000)
+			web.seeother('/')
+		else:
+			return render.index(True)
+
+class Logout:
+	def POST(self):
+		web.setcookie("loginedusername","")
+		web.setcookie("logineduseremail","")
+		web.setcookie("logineduserschool","")
+		web.setcookie("logineduserdepartment","")
+		web.seeother("/")
+
+class Upload:
+	def GET(self):
+		loginedusername = web.cookies().get('loginedusername')
+		logineduseremail = web.cookies().get('logineduseremail')
+		if model.isuservalid(loginedusername,logineduseremail):
+			return render.upload()
+		else:
+			return render.loginerror(True)
+	def POST(self):
+		loginedusername = web.cookies().get('loginedusername')
+		ud=web.input(paperfile={},paperdepartment='NULL',paperanswer='0')
+		client=sae.storage.Client()
+		ob=sae.storage.Object(ud.paperfile.file.read())
+		fileurl=client.put('uploadpapers',ud.paperfile.filename,ob)
+		recall=model.insertpaper(ud.paperschool,ud.paperdepartment,ud.papercourse,ud.paperyear,ud.paperterm,ud.papertype,ud.paperanswer,fileurl,loginedusername)
+		if recall:
+			return render.upload(1)
+		else:
+			return render.upload(-1)
+
+class Fastupload:
+	def GET(self):
+		return render.fastupload()
+	def POST(self):
+		loginedusername = 'FastUpload'
+		ud=web.input(fpaperfile={},fpaperdepartment='NULL',fpaperanswer='0')
+		client=sae.storage.Client()
+		ob=sae.storage.Object(ud.fpaperfile.file.read())
+		fileurl=client.put('uploadpapers',ud.fpaperfile.filename,ob)
+		recall=model.insertpaper(ud.fpaperschool,ud.fpaperdepartment,ud.fpapercourse,ud.fpaperyear,ud.fpaperterm,ud.fpapertype,ud.fpaperanswer,fileurl,loginedusername)
+		if recall:
+			return render.fastupload(1)
+		else:
+			return render.fastupload(-1)
+
+class Download:
+	def GET(self):
+		loginedusername = web.cookies().get('loginedusername')
+		logineduseremail = web.cookies().get('logineduseremail')
+		if model.isuservalid(loginedusername,logineduseremail):
+			ud=web.input(downyear=None,page='1')
+			if ud.downyear:
+				recall=model.downloadpaper(ud.downyear,ud.downterm,ud.downschool,ud.downdepartment,ud.downcourse,ud.downtype,ud.searchtype,int(ud.page))
+				return recall
+			else:
+				return render.download()
+		else:
+			return render.loginerror()
+
+class Comment:
+	def GET(self):
+		loginedusername = web.cookies().get('loginedusername')
+		logineduseremail = web.cookies().get('logineduseremail')
+		if model.isuservalid(loginedusername,logineduseremail):
+			return render.comment(loginedusername,logineduseremail)
+		else:
+			return render.comment()
+	def POST(self):
+		ud=web.input()
+		commentnickname=ud.commentnickname
+		commentemail=ud.commentemail
+		commentcontent=ud.commentcontent
+		recall=model.insertcomment(commentnickname,commentemail,commentcontent)
+		loginedusername = web.cookies().get('loginedusername')
+		logineduseremail = web.cookies().get('logineduseremail')
+		if model.isuservalid(loginedusername,logineduseremail):
+			if recall:
+				return render.comment(loginedusername,logineduseremail,1)
+			else:
+				return render.comment(loginedusername,logineduseremail,-1)
+		else:
+			if recall:
+				return render.comment('','',1)
+			else:
+				return render.comment('','',-1)
+
+class Help:
+	def GET(self):
+		return render.help()
+
+app = web.application(urls, globals()).wsgifunc()
+application = sae.create_wsgi_app(app)

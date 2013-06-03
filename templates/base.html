@@ -1,0 +1,36 @@
+$def with(pagecontent)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wb="http://open.weibo.com/wb">
+	<head>
+		<meta http-equiv="content-type"/>
+		<title>安徽大学试卷共享平台</title>
+		<link href="/static/default.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="/static/default.js"></script>
+		<link rel="bookmark" type="image/x-icon" href="/static/logo.ico"/>
+		<link rel="shortcut icon" href="/static/logo.ico">
+		<link rel="icon" href="/static/logo.ico">
+		<meta property="wb:webmaster" content="8061b5941a2ebe8d" />
+	</head>
+	<body>
+		<div id="header">
+			<div class="header_logo">
+				<a href="/" onfocus="blur()"><img src="/static/logo.png" alt="Paper Share Logo" border="0"/></a>
+			</div>
+			<div class="header_nav">
+				<ul>
+					<li><a href="/" class="nav_index">首页</a></li>
+					<li><a href="/upload" class="nav_upload">上传</a></li>
+					<li><a href="/download" class="nav_download">下载</a></li>
+					<li><a href="/comment" class="nav_comment">意见反馈</a></li>
+					<li><a href="/help" class="nav_help">使用帮助</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="maincontent">
+			$:pagecontent
+		</div>
+		<div id="footer">
+			<p>Copyright &copy; 2012-2013,all rights reserved. Author: justplus</p>
+		</div>
+	</body>
+</html>

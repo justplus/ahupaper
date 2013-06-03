@@ -1,0 +1,66 @@
+$def with(state=0)
+<div class="uploadbox">
+	<p class="regwelcome">感谢您提供试卷，请仔细阅读下面的细则后上传~</p>
+	<div class="uploadrule">
+		<p>1.请认真填写下面的试卷信息，以便其他同学查找和辨识；<br/>
+		2.信息不全或者错误，本站会在发现后执行删除或者更正操作；<br/>
+		3.为了方便识别和推荐，请将上传的文件名以"2012-2013年第1学期电路"的格式重命名；<br/>
+		4.公共基础课，英语、高数、物理等课程不填写院系；<br/>
+		5.上传文件格式为.doc .docx .pdf,上传文件大小不超过10MB；<br/>
+		6.示例：若试卷标题为“2012-2013年第1学期电路试卷”，那么下面的年份选2012,学期选1，课程名填“电路”，院系和专业选择出题院系和专业，如果包含答案的话，选择“含答案”.</p>
+	</div>
+	<div class="uploadform">
+		<form method="post" action="/upload" enctype="multipart/form-data" onsubmit="return checkUpload();">
+		<div class="uploadrow">
+			<label>年份：</label>
+			<select name="paperyear" id="paperyear">
+			</select>
+			<label>学期：</label>
+			<select name="paperterm" style="width:40px">
+				<option value="1">1</option>
+				<option value="2">2</option>
+			</select>
+			<label>院系：</label>
+			<select name="paperschool" id="paperschool" style="width:160px">
+				<option value="NULL">请选择学院</option>
+			</select>
+			<label>专业：</label>
+			<select name="paperdepartment" id="paperdepartment" style="width:160px">
+			</select>
+		</div>
+		<div class="uploadrow">
+			<label>课程：</label>
+			<input type="text" style="width:160px;margin-right:20px" id="papercourse" name="papercourse"/>
+			<label>类型：</label>
+			<select name="papertype" style="width:120px">
+				<option value="1">公共基础课</option>
+				<option value="2">专业核心课</option>
+				<option value="3">专业选修课</option>
+				<option value="4">校公选课</option>
+			</select>
+			<input type="checkbox" name="paperanswer" value="1">包含答案</input>
+		</div>
+		<div class="uploadrow">
+			<label>文件：</label>
+			<input type="file" size="40" id="paperfile" name="paperfile"/>
+		</div>
+		<div>
+			<input class="uploadbutton" type="submit" value="&nbsp&nbsp&nbsp提交&nbsp&nbsp&nbsp" onclick="changevisibility();"/>
+			<p class="uploading" id="uploadstate">文件正在上传...</p>
+			$if state==1:
+				<p class="recallmsg">上传成功！</p>
+			$elif state==-1:
+				<p class="recallmsg">上传出现异常，请重试！</p>
+		</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		for (i = 2012; i >= 1990; i--)
+		{
+			var e = document.getElementById("paperyear");
+			e.options.add(new Option(i,i));
+			e.selectedIndex=0;
+		}
+		loadschool("paperschool","paperdepartment");
+	</script>
+</div>

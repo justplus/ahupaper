@@ -1,0 +1,200 @@
+body{
+	margin:0 auto;
+	font-family:微软雅黑;
+	font-size:14px;
+	width:960px;
+	height:800px;
+}
+#header{
+	height:90px;
+}
+.header_logo{
+	width:235px;
+	height:85px;
+	float:left;
+	margin:2px 0 0 3px;
+}
+.header_nav{
+	float:right;
+}
+.header_nav ul{
+	margin-top:40px;
+}
+.header_nav ul li{
+	display:inline;
+	padding:0 0 0 15px;
+}
+.header_nav ul li a{
+	text-decoration: none;
+	font-size:20px;
+	font-weight:bold;
+}
+.nav_index{
+	color:#2e963d;
+}
+.nav_upload{
+	color:#1686d2;
+}
+.nav_download{
+	color:#ffac4d;
+}
+.nav_comment{
+	color:#eb6857;
+}
+.nav_help{
+	color:#715e4d;
+}
+#maincontent{
+	width:960px;
+	min-height:760px;
+}
+.regbox,.loginbox{
+	float:left;
+	height:130px;
+	overflow:hidden;
+	background-color:#e9eef2;
+	border-top-left-radius:5px;
+	border-bottom-left-radius:5px;
+}
+.regbox{
+	width:580px;
+	margin:0 10px 0 0;
+}
+.regbox p span,.loginbox p span{
+	color:#FF0000;
+	font-weight:bold;
+}
+.regbt,.loginbox a,.searchbox a,.sharebt{
+	margin:5px 0 0 250px;
+	text-decoration: none;
+	font-size:16px;
+	color:#FFFFFF;
+	background-color:#2e963d;
+	border-radius:3px;
+	cursor:pointer;
+}
+.sharebt{
+	margin:0px 0 0 150px;
+}
+.loginbox{
+	width:370px;
+}
+.loginbox .loginitem{
+	margin:12px 0 0 40px;
+}
+.loginbox .loginitem label{
+	font-weight:bold;
+}
+.loginbox p span{
+	color:#2e963d;
+}
+.regbutton input,.loginbutton input,.searchbutton,.uploadbutton{
+	margin:10px 0 0 150px;
+	font-size:16px;
+	color:#FFFFFF;
+	background:#3fa156; 
+	border: 1px solid #528641;
+	border-radius: 3px;
+	font-family:微软雅黑;
+	cursor:pointer;
+
+}
+.loginbutton input{
+	margin:15px 0 0 140px;
+}
+.searchbox{
+	clear:left;
+}
+.searchbox .searchinput{
+	margin:40px 0 0 250px;
+	font-family:微软雅黑;
+	font-size:18px;
+}
+.searchbutton{
+	margin:40px 0 0 20px;
+}
+.uploadbutton{
+	margin:10px 0 0 200px;
+}
+.regcontent .regitem{
+	padding:0 0 10px 15px;
+}
+.regpost{
+	padding-left:15px;
+}
+.regpost .regpostcontent{
+	padding-left:10px;
+}
+.regwelcome{
+	font-size:20px;
+	font-weight:bold;
+}
+.uploadbox .uploadrule{
+	padding-left:15px;
+}
+.uploadbox .uploadrule p{
+	color:#2e963d;
+}
+.uploadform select{
+	margin-right:20px;
+}
+.uploadrow{
+	padding:5px 0;
+}
+.helpbox{
+	padding-right: 40px;
+    width: 700px;
+}
+.helpbox .helphead{
+	background-color: #F2FBF2;
+    display: block;
+}
+.recallmsg{
+	color:#FF0000;
+}
+.regitem p{
+	color:#FF0000;
+	display:inline;
+}
+.nologinbox p{
+	color:#2e963d;
+	font-size:18px;
+}
+.nologinbox{
+	color:#FF0000;
+	cursor:pointer;
+}
+.uploading{
+	color:#FF0000;
+	display:none;
+}
+.downtable
+{
+	margin-top:20px;
+}
+.pager{
+	border:0;
+	border-collapse:collapse;
+}
+.pager td{
+	font-size: 13px;
+	padding: 0px 5px 0px 5px;
+	border: 1px solid #99CCFF;
+	text-align: center;
+}
+.pager td a{
+	color: #f0490e;
+	text-decoration: none;
+	cursor: pointer;
+}
+.uploadinfowithbk{
+	background-color: #F2FBF2;
+}
+.tip{
+	color:#FF0000;
+	margin:5px 0 0 140px;
+}
+#footer{
+	clear:both;
+	text-align:center;
+}
